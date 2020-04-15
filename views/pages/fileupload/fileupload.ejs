@@ -1,0 +1,128 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  form {
+    margin-top: 10em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    border: 1px solid #ced4da;
+    padding: 20px;
+    border-radius: .25rem;
+  }
+
+  .header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ced4da;
+  }
+</style>
+
+<div class="container">
+  <form id="form-upload">
+
+    <div class="header">
+      <h3>Upload Data</h3>
+    </div>
+
+    <div class="alert alert-dismissible" role="alert" id="alert" style="display: none">
+      <span id="message"></span>
+    </div>
+    <div class="form-group">
+      <label for="type">Table</label>
+      <select class="form-control" id="table" name="table">
+        <option value="product" selected>Product</option>
+        <option value="inventory">Inventory</option>
+        <option value="metadata">Metadata</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="type">Operation</label>
+      <select class="form-control" id="type" name="type">
+        <option value="append" selected>Append</option>
+        <option value="replace">Replace</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="file">CSV File</label>
+      <input id="file" accept="text/csv" class="form-control" type="file" name="file">
+    </div>
+    <button class="btn btn-success" type="submit">
+      <span class="spinner-border spinner-border-sm" id="spinner" style="display: none" role="status" aria-hidden="true"></span>
+      Upload
+    </button>
+  </form>
+</div>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script>
+
+  $(document).ready(function (e) {
+
+    function showHideAlert(type, msg) {
+      $('#message').html(msg);
+      $('#alert').fadeIn();
+      $('#alert').removeClass('alert-success');
+      $('#alert').removeClass('alert-danger');
+      $('#alert').removeClass('alert-warning');
+
+      if (type === 'success') {
+        $('#alert').addClass('alert-success');
+      } else if (type === 'error') {
+        $('#alert').addClass('alert-danger');
+      } else if (type === 'warning') {
+        $('#alert').addClass('alert-warning');
+      }
+
+      setTimeout(function() { $('#alert').fadeOut() } , 5000);
+    }
+
+    $("#form-upload").on('submit',(function(e) {
+
+      e.preventDefault();
+
+      $('#spinner').show();
+
+      if ($('#file').val() === null || $('#file').val() === '') {
+        showHideAlert('error','Please select upload file');
+        $('#spinner').hide();
+        return;
+      }
+
+      $.ajax({
+        url: "/inventory/uploadInventory",
+        type: "POST",
+        headers: {
+          "key": "889a68d7-c7e8-4625-9ed3-d49a6e356209",
+          "cache-control": "no-cache",
+        },
+        data:  new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(data) {
+            console.log(data);
+            $("#form-upload")[0].reset();
+            showHideAlert('success','File uploaded successfully !!!!');
+            $('#spinner').hide();
+        },
+        error: function(e) {
+          $("#form-upload")[0].reset();
+          showHideAlert('error',e.responseJSON.message);
+          $('#spinner').hide();
+        }
+      });
+
+    }));
+  });
+
+</script>

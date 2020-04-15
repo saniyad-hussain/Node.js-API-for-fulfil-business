@@ -1,0 +1,29 @@
+version: '2.1'
+
+services:
+  fulfil-api:
+    image: gcr.io/fulfil-web/fulfil-api
+    build:
+      context: ./
+      dockerfile: ./environment/production/Dockerfile
+    ports:
+      - 80:80
+
+  fulfil-api-staging:
+    image: gcr.io/fulfil-web/fulfil-api:staging
+    build:
+      context: ./
+      dockerfile: ./environment/staging/Dockerfile
+    ports:
+      - 80:80
+
+  fulfil-api-development:
+    image: gcr.io/fulfil-web/fulfil-api:development
+    build:
+      context: ./
+      dockerfile: ./environment/development/Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - /usr/src/app/node_modules
+      - .:/usr/src/app

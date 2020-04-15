@@ -1,0 +1,121 @@
+{
+  //   ╔═╗╔═╗╦  ╦╔╗╔╔╦╗┬─┐┌─┐
+  //   ║╣ ╚═╗║  ║║║║ ║ ├┬┘│
+  //  o╚═╝╚═╝╩═╝╩╝╚╝ ╩ ┴└─└─┘
+  // A set of basic code conventions (similar to a .jshintrc file) designed to
+  // encourage quality and consistency across your Sails app's code base.
+  // These rules are checked against automatically any time you run `npm test`.
+  //
+  // > An additional eslintrc override file is included in the `assets/` folder
+  // > right out of the box.  This is specifically to allow for variations in acceptable
+  // > global variables between front-end JavaScript code designed to run in the browser
+  // > vs. backend code designed to run in a Node.js/Sails process.
+  //
+  // > Note: If you're using mocha, you'll want to add an extra override file to your
+  // > `test/` folder so that eslint will tolerate mocha-specific globals like `before`
+  // > and `describe`.
+  // Designed for ESLint v4.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // For more information about any of the rules below, check out the relevant
+  // reference page on eslint.org.  For example, to get details on "no-sequences",
+  // you would visit `http://eslint.org/docs/rules/no-sequences`.  If you're unsure
+  // or could use some advice, come by https://sailsjs.com/support.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  "env": {
+    "node": true
+  },
+
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+
+  "globals": {
+    // If "no-undef" is enabled below, be sure to list all global variables that
+    // are used in this app's backend code (including the globalIds of models):
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    "Promise": true,
+    "sails": true,
+    "_": true,
+    "async": true
+    // …and any others (e.g. `"Organization": true`)
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  },
+
+  "rules": {
+    "callback-return":              ["error", ["done", "proceed", "next", "onwards", "callback", "cb"]],
+    "camelcase":                    ["error", {"properties":"never"}],
+    "comma-style":                  ["error", "last"],
+    "curly":                        ["error"],
+    "eqeqeq":                       ["error", "always"],
+    "eol-last":                     ["warn"],
+    "handle-callback-err":          ["error"],
+    "indent":                       ["warn", 2, {
+      "SwitchCase": 1,
+      "MemberExpression": "off",
+      "FunctionDeclaration": {"body":1, "parameters":"off"},
+      "FunctionExpression": {"body":1, "parameters":"off"},
+      "CallExpression": {"arguments":"off"},
+      "ArrayExpression": 1,
+      "ObjectExpression": 1,
+      "ignoredNodes": ["ConditionalExpression"],
+      "VariableDeclarator" : 2
+    }],
+    "linebreak-style":              ["error", "unix"],
+    "no-dupe-keys":                 ["error"],
+    "no-duplicate-case":            ["error"],
+    "no-extra-semi":                ["warn"],
+    "no-labels":                    ["error"],
+    "no-mixed-spaces-and-tabs":     [2, "smart-tabs"],
+    "no-redeclare":                 ["warn"],
+    "no-return-assign":             ["error", "always"],
+    "no-sequences":                 ["error"],
+    "no-trailing-spaces":           ["error"],
+    "no-undef":                     ["off"],
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ^^Note: If this "no-undef" rule is enabled (set to `["error"]`), then all model globals
+    // (e.g. `"Organization": true`) should be included above under "globals".
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    "no-unexpected-multiline":      ["warn"],
+    "no-unreachable":               ["warn"],
+    "no-unused-vars":               ["warn", {"caughtErrors":"all", "caughtErrorsIgnorePattern": "^unused($|[A-Z].*$)", "argsIgnorePattern": "^unused($|[A-Z].*$)", "varsIgnorePattern": "^unused($|[A-Z].*$)" }],
+    "no-use-before-define":         ["error", {"functions":false}],
+    "one-var":                      ["warn", "never"],
+    "quotes":                       ["error", "single", {"avoidEscape":false, "allowTemplateLiterals":true}],
+    "semi":                         ["error", "always"],
+    "semi-spacing":                 ["error", {"before":false, "after":true}],
+    "semi-style":                   ["warn", "last"],
+    "no-var": ["error"],
+    "max-len": ["error", { "code": 100, "tabWidth": 4, "ignoreComments": true, "ignoreTrailingComments": true, "ignoreUrls": true }],
+    "require-jsdoc": ["error", {"require": {"ArrowFunctionExpression" : true,"FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "FunctionExpression" : true}}],
+    "valid-jsdoc": ["error", { "requireReturnType": false , "requireParamDescription": false, "requireReturnDescription": false, "requireReturn": false, "prefer": { "returns": "returns"}}],
+    "no-multi-spaces": ["error"],
+    "array-bracket-spacing": ["error", "never"],
+    "block-spacing": ["error", "never"],
+    "brace-style": ["error"],
+    "comma-dangle": ["error", {"arrays": "never", "objects": "never", "imports": "never", "exports": "never", "functions": "never"}],
+    "comma-spacing": ["error"],
+    "computed-property-spacing": "error",
+    "no-array-constructor": "error",
+    "no-multiple-empty-lines": [2, {"max": 2}],
+    "no-tabs": ["error"],
+    "object-curly-spacing": ["error"],
+    "quote-props": ["error", "consistent"],
+    "space-before-blocks": ["error"],
+    "space-before-function-paren": ["error", {"asyncArrow": "always", "anonymous": "never", "named": "never"}],
+    "spaced-comment": ["error", "always", {"exceptions":["-","+", "*"]}],
+    "switch-colon-spacing": ["error"],
+    "prefer-const": ["error", {"destructuring": "all"}],
+    "prefer-rest-params": ["error"],
+    "prefer-spread": ["error"],
+    "rest-spread-spacing": ["error"],
+    "prefer-arrow-callback": [ "error", { "allowNamedFunctions": false, "allowUnboundThis": false } ],
+    "prefer-template": "error",
+    "no-useless-concat": "error",
+    "one-var-declaration-per-line" : "error"
+  }
+
+}
